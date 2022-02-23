@@ -54,12 +54,12 @@ p {
     box-sizing: border-box;
     height: 100%;
     height: auto;
+    display: flex;
 }
 
-.grid-item .backside {
-    background-color: white;
+.grid-item h3 {
     position: absolute;
-    display: none;
+    bottom: 0em;
 }
 
 .grid-item:nth-child(1) {

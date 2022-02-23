@@ -107,21 +107,16 @@ function displayDinoAndPigeon() {
             <img src="./images/${el.species.toLowerCase()}.png">
             <h3>${el.species}</h3>
             <p>${el.fact}</p>
-            <div class="backside">
-            <p>The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
-            It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.
-            </p>
-            </div>
-        `
+             `
         main.appendChild(dino_el)
-        addEventListener("hover", function(dino_el) {
-            turnCards(dino_el);
+
+        dino_el.addEventListener("click", () => {
+            dino_el.innerHTML = `<p>The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
+            It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.
+            </p>`
         })
     }
 
-    function turnCards(dino_el) {
-        dino_el.style.display = "flex";
-    }
 
     //Classifying the Objects of the array to either a Dino or a Bird class
     Data.forEach(function(d) {
