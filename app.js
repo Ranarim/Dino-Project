@@ -143,4 +143,5 @@ btn.addEventListener("click", function() {
     document.getElementById("dino-compare").style.display = "none";
     createPerson();
     displayDinoAndPigeon();
+    console.log("displayDInoAndPigeion");
 });
