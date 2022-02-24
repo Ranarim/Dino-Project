@@ -102,24 +102,23 @@ function displayDinoAndPigeon() {
 
     // Create Dino and Bird Objects within the DOM
     function manipulateDOM(el) {
+        //Creating the Dino Element with a Picture and the name of the species
         let dino_el = document.createElement('div');
         dino_el.classList.add('grid-item');
-        dino_el.innerHTML = `
-            <img src="./images/${el.species.toLowerCase()}.png">
-            <h3>${el.species}</h3>
-            `
+        dino_el.innerHTML = `<img src="./images/${el.species.toLowerCase()}.png"><h3>${el.species}</h3>`
         main.appendChild(dino_el)
 
+        //Creating the frontside, the fact about the dino
         let frontside_el = document.createElement("p");
         frontside_el.innerHTML = `${el.fact}`
         frontside_el.classList.add("frontside")
         dino_el.appendChild(frontside_el);
 
+        //Creating the backside, the other facts about the dino
         let backside_el = document.createElement("p");
         backside_el.innerHTML = `
         The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
-        It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.
-`
+        It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.`
         backside_el.classList.add("backside")
         dino_el.appendChild(backside_el);
 
@@ -156,8 +155,3 @@ btn.addEventListener("click", function() {
     createPerson();
     displayDinoAndPigeon();
 });
-
-/* //Adding Event Listener when Card is clicked
-cards.forEach(function(card) {
-    console.log(card);
-}) */
