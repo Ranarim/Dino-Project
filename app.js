@@ -94,6 +94,7 @@ function createPerson() {
     </p>
     `
     main.appendChild(human_el)
+
 }
 
 //Creating the functionality for 
@@ -106,14 +107,30 @@ function displayDinoAndPigeon() {
         dino_el.innerHTML = `
             <img src="./images/${el.species.toLowerCase()}.png">
             <h3>${el.species}</h3>
-            <p>${el.fact}</p>
-             `
+            `
         main.appendChild(dino_el)
 
-        dino_el.addEventListener("click", () => {
-            dino_el.innerHTML = `<p>The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
-            It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.
-            </p>`
+        let frontside_el = document.createElement("p");
+        frontside_el.innerHTML = `${el.fact}`
+        frontside_el.classList.add("frontside")
+        dino_el.appendChild(frontside_el);
+
+        let backside_el = document.createElement("p");
+        backside_el.innerHTML = `
+        The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
+        It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.
+`
+        backside_el.classList.add("backside")
+        dino_el.appendChild(backside_el);
+
+        dino_el.addEventListener("click", function() {
+            if (backside_el.style.opacity == 0) {
+                backside_el.style.opacity = 1;
+                frontside_el.style.opacity = 0;
+            } else {
+                backside_el.style.opacity = 0;
+                frontside_el.style.opacity = 1;
+            }
         })
     }
 
@@ -138,5 +155,9 @@ btn.addEventListener("click", function() {
     document.getElementById("dino-compare").style.display = "none";
     createPerson();
     displayDinoAndPigeon();
-    console.log("displayDInoAndPigeion");
 });
+
+/* //Adding Event Listener when Card is clicked
+cards.forEach(function(card) {
+    console.log(card);
+}) */
