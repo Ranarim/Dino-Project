@@ -11,6 +11,33 @@ class Organism {
             this.diet = diet
         this.where = where
     }
+
+
+    //Creating Methods of this Prototype
+    comparingHeight(human) {
+        let difference = this.height - human.height;
+        if (this.height < human.height) {
+            return `The ${this.species} is ${Math.abs(difference)} inches smaller than you.`
+        } else {
+            return `The ${this.species} is ${Math.abs(difference)} inches taller than you.`
+        }
+    }
+
+    comparingDiet(human) {
+        if (human.diet.toLowerCase() == this.diet) {
+            return `The Dinosaur is also eating ${this.diet}, like you do.`
+        } else {
+            return `The Dinosaur is not eating the same as you, it eats ${this.diet}.`
+        }
+    }
+
+    comparingWeight(human) {
+        if (human.weight < this.weight) {
+            return `The Dinosaur weights ${this.weight-human.weight} pounds more than you.`
+        } else {
+            return `The Dinosaur weights ${human.weight-this.weight} pounds less than you.`
+        }
+    }
 }
 class Dinosaur extends Organism {
     constructor(weight, height, diet, species, where, when, fact) {
@@ -21,137 +48,101 @@ class Dinosaur extends Organism {
     }
 }
 class Bird extends Organism {
-    constructor(name, inches, weight, height, diet) {
-        super(weight, height, diet)
-        this.name = name,
-            this.inches = inches
-        this.weight = weight,
-            this.height = height,
-            this.diet = diet
+    constructor(weight, height, diet, species, where, when, fact) {
+        super(weight, height, diet, where)
+        this.species = species,
+            this.fact = fact,
+            this.when = when
     }
 }
 class Human extends Organism {
     constructor(name, inches, weight, height, diet, where) {
-            super(weight, height, diet, where)
-            this.name = name,
-                this.inches = inches
-        }
-        //Creating Methods of this Prototype
-    comparingHeight() {
-        let heightByValue = Data.map(data => data.height);
-        let sumHeight = 0;
-        for (let h of heightByValue) {
-            if (h < this.height) {
-                sumHeight += 1;
-            } else {}
-        }
-        return sumHeight
-    }
-
-    comparingDiet() {
-        let dietByValue = Data.map(data => data.diet);
-        let sumDiet = 0;
-        for (let d of dietByValue) {
-            this.diet.toLowerCase() == d ? sumDiet++ : {};
-        }
-        return sumDiet
-    }
-
-    comparingLocation() {
-        let locationByValue = Data.map(data => data.where);
-        let locationSum = 0;
-        for (let l of locationByValue) {
-            if (l == "World Wide") {
-                locationSum++
-            } else if (l.includes(this.where)) {
-                locationSum++
-            } else {}
-        }
-        return locationSum
-
+        super(weight, height, diet, where)
+        this.name = name,
+            this.inches = inches
     }
 }
 
-//Creating the human Object with the input of the form 
-function createPerson() {
-    let name = document.getElementById("name").value;
-    let feet = document.getElementById("feet").value;
-    let inches = document.getElementById("inches").value;
-    let weight = document.getElementById("weight").value;
-    let diet = document.getElementById("diet").value;
-    let where = document.getElementById("location").value;
-
-    let human = new Human(name, inches, weight, feet, diet, where)
+//Create Human Cards
+function createHumanCard(object) {
+    //Manipulating the DOM of the human Object
     let human_el = document.createElement("div");
     human_el.classList.add("grid-item")
     human_el.setAttribute("id", "human-item")
     human_el.innerHTML = `
     <img src="./images/human.png">
-    <h3>${human.name}</h3>
-    <p>The human is taller than ${human.comparingHeight()} other dinosaurs.<br>
-    It has the same diet as ${human.comparingDiet()} other dinosaurs.<br>
-    It has the same habitat as ${human.comparingLocation()} other dinosaurs.
-    </p>
+    <h3>${object.name}</h3>
     `
     main.appendChild(human_el)
-
 }
 
-//Creating the functionality for 
-function displayDinoAndPigeon() {
+// Create Dino and Bird Cards
+function createDinoCards(el, human) {
+    //Creating the Dino Element with a Picture and the name of the species
+    let dino_el = document.createElement('div');
+    dino_el.classList.add('grid-item');
+    dino_el.innerHTML = `<img src="./images/${el.species.toLowerCase()}.png"><h3>${el.species}</h3>`
+    main.appendChild(dino_el)
 
-    // Create Dino and Bird Objects within the DOM
-    function manipulateDOM(el) {
-        //Creating the Dino Element with a Picture and the name of the species
-        let dino_el = document.createElement('div');
-        dino_el.classList.add('grid-item');
-        dino_el.innerHTML = `<img src="./images/${el.species.toLowerCase()}.png"><h3>${el.species}</h3>`
-        main.appendChild(dino_el)
+    //Creating the first fact, the fact about the dino
+    let fact1 = document.createElement("p");
+    fact1.innerHTML = `${el.fact}`
+    fact1.classList.add("fact1")
 
-        //Creating the frontside, the fact about the dino
-        let frontside_el = document.createElement("p");
-        frontside_el.innerHTML = `${el.fact}`
-        frontside_el.classList.add("frontside")
-        dino_el.appendChild(frontside_el);
+    //Creating the second fact
+    let fact2 = document.createElement("p");
+    fact2.innerHTML = `${el.comparingDiet(human)}`
 
-        //Creating the backside, the other facts about the dino
-        let backside_el = document.createElement("p");
-        backside_el.innerHTML = `
-        The ${el.species}'s habitat's was ${el.where} and was living during the ${el.when}. <br>
-        It's size of about ${el.height} (inches) was reached through a ${el.diet} diet.`
-        backside_el.classList.add("backside")
-        dino_el.appendChild(backside_el);
+    //Creating the third fact
+    let fact3 = document.createElement("p");
+    fact3.innerHTML = `${el.comparingHeight(human)}`;
 
-        dino_el.addEventListener("click", function() {
-            if (backside_el.style.opacity == 0) {
-                backside_el.style.opacity = 1;
-                frontside_el.style.opacity = 0;
-            } else {
-                backside_el.style.opacity = 0;
-                frontside_el.style.opacity = 1;
-            }
-        })
-    }
+    //Create the fourth fact
+    let fact4 = document.createElement("p");
+    fact4.innerHTML = `${el.comparingWeight(human)}`;
 
-
-    //Classifying the Objects of the array to either a Dino or a Bird class
-    Data.forEach(function(d) {
-        switch (d.name) {
-            case "Pigeon":
-                let bird = new Bird(d.weight, d.height, d.diet, d.species, d.where, d.when, d.fact)
-                manipulateDOM(bird);
-                break;
-            default:
-                let dino = new Dinosaur(d.weight, d.height, d.diet, d.species, d.where, d.when, d.fact)
-                manipulateDOM(dino);
-                break;
-        }
-    })
+    //Select random Element out of these 4 facts 
+    let factArray = [fact1, fact2, fact3, fact4];
+    dino_el.appendChild(factArray[Math.floor(Math.random() * factArray.length)]);
 }
+
+function createBirdCard(bird) {
+    //Creating the Bird Element with a Picture and the name of the species
+    let bird_el = document.createElement('div');
+    bird_el.classList.add('grid-item');
+    bird_el.innerHTML = `<img src="./images/${bird.species.toLowerCase()}.png"><h3>${bird.species}</h3><p>${bird.fact}</p>`
+    main.appendChild(bird_el)
+}
+
 
 //Adding Event Listener when Button is clicked
 btn.addEventListener("click", function() {
+    //Making the form disappear
     document.getElementById("dino-compare").style.display = "none";
-    createPerson();
-    displayDinoAndPigeon();
+
+
+    //Defining the Variables of the human with the values of the form
+    let name = document.getElementById("name").value;
+    let feet = document.getElementById("feet").value * 12;
+    let inches = document.getElementById("inches").value;
+    let weight = document.getElementById("weight").value;
+    let diet = document.getElementById("diet").value;
+    let where = document.getElementById("location").value;
+
+    //Creating a human Object which inherits from the Human Class
+    let human = new Human(name, inches, weight, feet, diet, where)
+
+    //Manipulating the DOM
+    createHumanCard(human);
+
+    //Creating Dino Objects and Manipulating the DOM
+    Data.forEach(function(data) {
+        if (data.species == "Pigeon") {
+            let bird = new Bird(data.weight, data.height, data.diet, data.species, data.where, data.when, data.fact)
+            createBirdCard(bird)
+        } else {
+            let dino = new Dinosaur(data.weight, data.height, data.diet, data.species, data.where, data.when, data.fact)
+            createDinoCards(dino, human);
+        }
+    })
 });
